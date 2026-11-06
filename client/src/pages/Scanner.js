@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { analyzeUrlClientSide } from '../utils/urlAnalyzer';
 import Logo from '../components/Logo';
 import './Scanner.css';
 
@@ -39,16 +40,33 @@ export default function Scanner() {
     setError('');
     setResult(null);
 
+    let dataToSet = null;
     try {
       const endpoint = user ? '/api/scan' : '/api/scan/guest';
-      const res = await axios.post(endpoint, { url: targetUrl.trim() });
-      setResult(res.data);
-    } catch (err) {
-      const msg = err.response?.data?.error || err.response?.data?.message || 'Failed to scan URL. Verify backend and ML service are active.';
-      setError(msg);
-    } finally {
-      setLoading(false);
+      const res = await axios.post(endpoint, { url: targetUrl.trim() }, { timeout: 5000 });
+      dataToSet = res.data;
+    } catch {
+      // Graceful fallback for static deployments (e.g. Netlify)
+      dataToSet = analyzeUrlClientSide(targetUrl.trim());
     }
+
+    if (dataToSet) {
+      setResult(dataToSet);
+      try {
+        const historyKey = 'phishguard_local_history';
+        const existing = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        const entry = {
+          _id: 'scan-' + Date.now(),
+          url: dataToSet.url,
+          prediction: dataToSet.prediction,
+          riskScore: dataToSet.riskScore,
+          confidence: dataToSet.confidence,
+          scannedAt: new Date().toISOString()
+        };
+        localStorage.setItem(historyKey, JSON.stringify([entry, ...existing.slice(0, 49)]));
+      } catch {}
+    }
+    setLoading(false);
   };
 
   useEffect(() => {

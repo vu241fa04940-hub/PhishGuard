@@ -65,7 +65,7 @@ export default function Home() {
           <div className="hero-content">
             <div className="hero-badge">
               <span className="badge-dot"></span>
-              Machine Learning Security System
+              Real-Time Threat Protection
             </div>
             <div className="hero-logo">
               <Logo size={72} />
@@ -74,11 +74,10 @@ export default function Home() {
               Website Phishing Detection System
             </h1>
             <p className="hero-subtitle">
-              Using MERN Stack and Machine Learning
+              Proactive Web Security and URL Threat Verification
             </p>
             <p className="hero-desc">
-              Identify and analyze deceptive websites using a trained Random Forest classification engine.
-              Inspect URLs in real-time with deterministic feature extraction and transparent risk scoring.
+              PhishGuard analyzes suspicious links to protect you from fraudulent websites, credential harvesting, and deceptive online threats. Verify any URL instantly before you visit to ensure a safe browsing experience.
             </p>
 
             <form className="hero-scanner" onSubmit={handleScan}>
@@ -99,18 +98,18 @@ export default function Home() {
 
             <div className="hero-stats">
               <div className="stat-item">
-                <span className="stat-value">24</span>
-                <span className="stat-label">Extracted Features</span>
+                <span className="stat-value">24+</span>
+                <span className="stat-label">Security Parameters</span>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <span className="stat-value">10,000+</span>
-                <span className="stat-label">Training Samples</span>
+                <span className="stat-value">Instant</span>
+                <span className="stat-label">Risk Assessment</span>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <span className="stat-value">Random Forest</span>
-                <span className="stat-label">Ensemble Classifier</span>
+                <span className="stat-value">Zero-Contact</span>
+                <span className="stat-label">Safe URL Inspection</span>
               </div>
             </div>
           </div>

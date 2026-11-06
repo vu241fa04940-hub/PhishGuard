@@ -20,11 +20,15 @@ export default function History() {
     try {
       const params = new URLSearchParams({ page, limit: 15 });
       if (filter !== 'all') params.append('filter', filter);
-      const res = await axios.get(`/api/history?${params}`);
+      const res = await axios.get(`/api/history?${params}`, { timeout: 4000 });
       setScans(res.data.results || []);
       setPagination(res.data.pagination || {});
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to load scan history.');
+    } catch {
+      // Fallback for static Netlify host
+      const local = JSON.parse(localStorage.getItem('phishguard_local_history') || '[]');
+      const filtered = filter === 'all' ? local : local.filter(s => s.prediction === filter);
+      setScans(filtered);
+      setPagination({ total: filtered.length, page: 1, pages: 1 });
     } finally {
       setLoading(false);
     }
