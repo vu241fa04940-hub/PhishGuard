@@ -23,7 +23,7 @@ const PIE_COLORS = ['#ef4444', '#10b981'];
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error] = useState(null);
 
   const fetchStats = async () => {
     try {
@@ -146,8 +146,8 @@ export default function Dashboard() {
                     contentStyle={{ background: '#111827', border: '1px solid #1e293b', borderRadius: 8 }}
                     labelStyle={{ color: '#f1f5f9' }}
                   />
-                  <Bar dataKey="phishing" name="Phishing" fill="#ef4444" radius={[4,4,0,0]} />
-                  <Bar dataKey="legitimate" name="Legitimate" fill="#10b981" radius={[4,4,0,0]} />
+                  <Bar dataKey="phishing" name="Phishing" fill="#ef4444" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="legitimate" name="Legitimate" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -213,8 +213,8 @@ export default function Dashboard() {
                     </span>
                     <span className="scan-score">Risk: {scan.riskScore}/100</span>
                     <span className="scan-date">
-                      {new Date(scan.scannedAt).toLocaleDateString('en-US', { 
-                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                      {new Date(scan.scannedAt).toLocaleDateString('en-US', {
+                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                       })}
                     </span>
                   </div>
